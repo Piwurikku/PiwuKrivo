@@ -1242,7 +1242,21 @@ mcedit /etc/logrotate.d/rsyslog-remote
 
 Содержимое файла:
 
-/opt/*/*.log /opt/*.log { weekly rotate 4 compress delaycompress missingok notifempty minsize 12M */change/* create 0644 root root sharedscripts postrotate /usr/bin/systemctl kill -s HUP rsyslog >/dev/null 2>&1 || true endscript }
+/opt/*/*.log 
+/opt/*.log {
+    weekly
+    rotate 4
+    compress
+    delaycompress
+    missingok
+    notifempty
+    minsize 12M
+    create 0644 root root
+    sharedscripts
+    postrotate
+        /usr/bin/systemctl kill -s HUP rsyslog >/dev/null 2>&1 || true
+    endscript
+}
 
 Проверьте конфигурацию:
 
