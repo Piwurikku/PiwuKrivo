@@ -461,7 +461,24 @@ apt-get update apt-get install sudo-samba-schema -y sudo-schema-apply
 123qweR%
 Если ошибка получения Керберос изменить:
 /etc/krb5.conf:
-includedir /etc/krb5.conf.d/ [logging] default = FILE:/var/log/krb5libs.log kdc = FILE:/var/log/krb5kdc.log admin_server = FILE:/var/log/kadmind.log [libdefaults] dns_lookup_kdc = false dns_lookup_realm = false ticket_lifetime = 24h renew_lifetime = 7d forwardable = true rdns = false default_realm = AU-TEAM.IRPO default_ccache_name = KEYRING:persistent:%{uid} [realms] AU-TEAM.IRPO = { kdc = 192.168.3.2 admin_server = 192.168.3.2 default_domain = au-team.irpo } [domain_realm] .au-team.irpo = AU-TEAM.IRPO au-team.irpo = AU-TEAM.IRPO
+includedir /etc/krb5.conf.d/ 
+[logging]
+default = FILE:/var/log/krb5libs.log
+kdc = FILE:/var/log/krb5kdc.log
+admin_server = FILE:/var/log/kadmind.log 
+[libdefaults] 
+dns_lookup_kdc = false 
+dns_lookup_realm = false 
+ticket_lifetime = 24h
+renew_lifetime = 7d
+forwardable = true
+rdns = false
+default_realm = AU-TEAM.IRPO 
+default_ccache_name = KEYRING:persistent:%{uid} 
+[realms] 
+AU-TEAM.IRPO = { kdc = 192.168.3.2 admin_server = 192.168.3.2 default_domain = au-team.irpo } 
+[domain_realm]
+.au-team.irpo = AU-TEAM.IRPO au-team.irpo = AU-TEAM.IRPO
 
 
 create-sudo-rule
@@ -498,7 +515,22 @@ apt-get install libsss_sudo -y
 
 mcedit /etc/sssd/sssd.conf:
 
-[sssd] config_file_version = 2 services = nss, pam, sudo user = _sssd domains = AU-TEAM.IRPO [nss] [pam] [domain/AU-TEAM.IRPO] sudo_provider = ad id_provider = ad auth_provider = ad chpass_provider = ad access_provider = ad default_shell = /bin/bash fallback_homedir = /home/%d/%u debug_level = 0
+[sssd] 
+config_file_version = 2 
+services = nss, pam, sudo 
+user = _sssd 
+domains = AU-TEAM.IRPO 
+[nss]
+[pam] 
+[domain/AU-TEAM.IRPO] 
+sudo_provider = ad
+id_provider = ad 
+auth_provider = ad
+chpass_provider = ad
+access_provider = ad 
+default_shell = /bin/bash
+fallback_homedir = /home/%d/%u 
+debug_level = 0
 
 
 mcedit /etc/nsswitch.conf
