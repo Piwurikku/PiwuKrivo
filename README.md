@@ -558,7 +558,16 @@ systemctl --force --full edit raid.mount
 Итоговый вид файла юнита raid.mount
 
 
-[Unit] Description=Mount RAID5 */change/* [Mount] What=/dev/md2p1 */change/* Where=/raid Type=ext4 Options=defaults [Install] WantedBy=multi-user.target
+[Unit] 
+Description=Mount RAID5 
+[Mount]
+What=/dev/md2p1 
+Where=/raid 
+Type=ext4
+Options=defaults
+[Install]
+WantedBy=multi-user.target
+
 Сохранить и выйти: Shift + ; и написать wq
 
 
@@ -594,7 +603,16 @@ edit mnt-nfs.mount
 Итоговый вид файла юнита mnt-nfs.mount
 
 
-[Unit] Description=Mount NFS [Mount] What=192.168.1.2:/raid/nfs Where=/mnt/nfs Type=nfs Options=_netdev,auto [Install] WantedBy=multi-user.target
+[Unit]
+Description=Mount NFS
+[Mount] 
+What=192.168.1.2:/raid/nfs
+Where=/mnt/nfs
+Type=nfs 
+Options=_netdev,auto 
+[Install]
+WantedBy=multi-user.target
+
 Сохраняем файл nano сочетанием Ctrl + O и Ctrl + X
 
 
@@ -773,10 +791,16 @@ apt-get install docker-engine docker-compose -y
 systemctl enable --now docke
 r systemctl status docker
 
-14.2. Импорт образов
+
+Импорт образов
 НЕОБХОДИМО сначала выключить машину и добавить Additional.iso образ диска
 
-mkdir /mnt/add_cd mount /dev/sr0 /mnt/add_cd cp -r /mnt/add_cd/docker ~/docker/ docker image load -i /root/docker/site_latest.tar docker image load -i /root/docker/mariadb_latest.tar docker images
+mkdir /mnt/add_cd
+mount /dev/sr0 /mnt/add_cd 
+cp -r /mnt/add_cd/docker ~/docker/
+docker image load -i /root/docker/site_latest.tar
+docker image load -i /root/docker/mariadb_latest.tar
+docker images
 
 Если ошибка на image:
 
@@ -784,14 +808,28 @@ cd ~/docker/ tar -tvf site_latest.tar # Если выдаст ошибку вр�
 
 
 
-mkdir testapp cd testapp/ mcedit docker-compose.yaml
+mkdir testapp cd testapp/
+
+mcedit docker-compose.yaml
 
 Итоговый вид docker-compose.yaml (DB: testdb2, User: test2c, Port: 8082) 
 
 
+<img width="507" height="761" alt="image" src="https://github.com/user-attachments/assets/7454ccac-db88-4138-acb6-a44935d6a09e" />
+<img width="494" height="315" alt="image" src="https://github.com/user-attachments/assets/68514a59-dea0-4d98-af34-c9392e52118f" />
 
-services: testapp: image: site:latest container_name: testapp restart: always depends_on: - db ports: - 8082:8000 
-environment: DB_TYPE: maria DB_HOST: db DB_NAME: testdb2 */change/* DB_PORT: 3306 DB_USER: test2c 
+
+services:
+testapp: 
+image:
+site:latest
+container_name: testapp 
+restart: always 
+depends_on: - 
+db ports: - 8082:8000 
+environment: 
+DB_TYPE:
+maria DB_HOST: db DB_NAME: testdb2 */change/* DB_PORT: 3306 DB_USER: test2c 
 DB_PASS: P@ssw0rd db: image: mariadb:10.11 container_name: db restart: always environment: MARIADB_DATABASE: testdb2 
 MARIADB_USER: test2c 
 MARIADB_PASSWORD: P@ssw0rd MARIADB_ROOT_PASSWORD: 123qweR% volumes: - /root/testapp/db_data:/var/lib/mysql volumes: db_data:
@@ -883,7 +921,27 @@ mcedit /etc/nginx/sites-available/nginx-proxy
 
 Я НЕ БУДУ СТАВИТЬ ТАБУЛЯЦИЮ, С БОГОМ НАХУЙ
 
-server { listen 80; server_name web.au-team.irpo; location / { proxy_pass http://172.16.30.2:8082; */change/* proxy_set_header Host $host; proxy_set_header X-Real-IP $remote_addr; proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for; proxy_set_header X-Forwarded-Proto $scheme; } } server { listen 80; server_name docker.au-team.irpo; location / { proxy_pass http://172.16.40.2:8082; */change/* proxy_set_header Host $host; proxy_set_header X-Real-IP $remote_addr; proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for; proxy_set_header X-Forwarded-Proto $scheme; } }
+server {
+            listen 80;
+            server_name web.au-team.irpo;
+            location / {
+                        proxy_pass http://172.16.30.2:8082;
+                        proxy_set_header Host $host;
+                        proxy_set_header X-Real-IP $remote_addr;
+                        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                        proxy_set_header X-Forwarded-Proto $scheme;
+   }
+} server {
+            listen 80;
+            server_name docker.au-team.irpo;
+            location / {
+                        proxy_pass http://172.16.40.2:8082;
+                        proxy_set_header Host $host;
+                        proxy_set_header X-Real-IP $remote_addr;
+                        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
 
 
 nginx -t
@@ -932,9 +990,29 @@ su - apt-get install yandex-browser-stable -y
 mount /dev/sr0 /mnt/
 mcedit /root/import.sh
 Создание скрипта импорта:
-САМИ ЕБИТЕСЬ Я ЩАС ЗАПЛАЧУ БЛЯТЬ АХАХАХХААХх
 
-#!/bin/bash csv_file="$1" # Create OU awk -F ';' 'NR>1 {print $5}' "$csv_file" | sort | uniq | while read ou; do samba-tool ou add OU="$ou",DC=au-team,DC=irpo; done # Create Users while IFS=";" read -r firstName lastName role phone ou street zip city country password; do if [ "$firstName" == "First Name" ]; then continue fi username="$(echo $firstName | cut -c1).$(echo $lastName)" samba-tool user add "$username" Password1 \ --given-name="$firstName" \ --surname="$lastName" \ --telephone-number="$phone" \ --job-title="$role" \ --userou="OU=$ou" samba-tool user setexpiry "$username" --noexpiry done < "$csv_file"
+
+#!/bin/bash
+csv_file="$1"
+# Create OU
+awk -F ';' 'NR>1 {print $5}' "$csv_file" | sort | uniq | while read ou; do
+            samba-tool ou add OU="$ou",DC=au-team,DC=irpo;
+done
+# Create Users
+while IFS=";" read -r firstName lastName role phone ou street zip city country password; do
+            if [ "$firstName" == "First Name" ]; then
+                        continue 
+            fi
+            username="$(echo $firstName | cut -c1).$(echo $lastName)"
+            samba-tool user add "$username" Password1 \
+                        --given-name="$firstName" \
+                        --surname="$lastName" \
+                        --telephone-number="$phone" \
+                        --job-title="$role" \
+                        --userou="OU=$ou"
+            samba-tool user setexpiry "$username" --noexpiry
+done < "$csv_file"
+
 chmod +x /root/import.sh /root/import.sh /mnt/Users.csv
 
 
@@ -945,7 +1023,23 @@ chmod +x /root/import.sh /root/import.sh /mnt/Users.csv
 mcedit /root/im.sh
 Я НЕ БУДУ ТАБУЛЯЦИЮ ТУТ ДЕЛАТЬ НЕТ
 
-exclude_users="administrator guest krbtgt hquser1 hquser2 hquser3 hquser4 hquser5" wbinfo -u 2>&1 | while read user; do echo ">> $user" if [[ "$user" == *\$* ]] || [[ -z "$user" ]]; then continue fi if echo "$exclude_users" | grep -qw "$user"; then echo "Пропускаем: $user (исключён)" continue fi sudo mkdir -p "/home/AU-TEAM.IRPO/$user" sudo cp -r "/etc/skel/." "/home/AU-TEAM.IRPO/$user" sudo chown "$user" "/home/AU-TEAM.IRPO/$user" sudo chmod 700 "/home/AU-TEAM.IRPO/$user" echo "Создано: $user" done
+exclude_users="administrator guest krbtgt hquser1 hquser2 hquser3 hquser4 hquser5"
+
+wbinfo -u 2>&1 | while read user; do
+            echo ">> $user"
+            if [[ "$user" == *\$* ]] || [[ -z "$user" ]]; then
+                        continue
+            fi
+            if echo "$exclude_users" | grep -qw "$user"; then
+                        echo "Пропускаем: $user (исключён)"
+                        continue
+            fi
+            sudo mkdir -p "/home/AU-TEAM.IRPO/$user"
+            sudo cp -r "/etc/skel/." "/home/AU-TEAM.IRPO/$user"
+            sudo chown "$user" "/home/AU-TEAM.IRPO/$user" 
+            sudo chmod 700 "/home/AU-TEAM.IRPO/$user"
+            echo "Создано: $user"
+done
 
 chmod +x /root/im.sh /root/im.sh
 
@@ -1063,7 +1157,8 @@ systemctl enable --now cups cupsctl --share-printers --remote-any
 
 Добавление виртуального принтера (HQ-CLI)
 
-sudo lpadmin -p Virtual_PDF -E -v ipp://192.168.1.2:631/printers/cups-pdf -m everywhere sudo lpoptions -d Virtual_PDF lpstat -d
+sudo lpadmin -p Virtual_PDF -E -v ipp://192.168.1.2:631/printers/cups-pdf -m everywhere
+sudo lpoptions -d Virtual_PDF lpstat -d
 
 
 Через принтеры отправить пробную печать и на HQ-SRV проверить командой:
