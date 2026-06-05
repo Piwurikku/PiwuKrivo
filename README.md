@@ -10,7 +10,14 @@ hostnamectl set-hostname isp; exec bash
 Открыть в mcedit:
 mcedit /etc/network/interfaces
 Туда писать:
-auto eth0 iface eth0 inet dhcp auto eth1 iface eth1 inet static address 172.16.30.1/28 */change/* auto eth2 iface eth2 inet static address 172.16.40.1/28 */change/*
+auto eth0
+iface eth0 inet dhcp 
+auto eth1
+iface eth1 inet static
+address 172.16.30.1/28
+auto eth2 iface
+eth2 inet static
+address 172.16.40.1/28
 
 systemctl restart networking
 
