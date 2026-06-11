@@ -7,6 +7,25 @@ piwukrivo is a d3m0d3m0d3m0 for s4s4s4
 
 
 
+root@mail:~# curl -k -I https://172.16.1.20
+HTTP/2 200 
+server: nginx/1.22.1
+content-type: text/html; charset=UTF-8
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 root@mail:~# swaks --to petrova@company.local --from ivanov@company.local \
 > --server 127.0.0.1 --port 587 --tls \
 > --auth LOGIN \
