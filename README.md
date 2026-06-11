@@ -1336,3 +1336,22 @@ server {
     'host' => 'localhost',
     'port' => 6379,
 ],
+
+АААААААААААААААААААААААААААААААААААААААА
+
+'ldapProviderFactory' => 'OCA\User_LDAP\LDAPProviderFactory',
+'ldap' => [
+    'ldap_configuration' => [
+        'ldapHost' => 'ldap://127.0.0.1',
+        'ldapPort' => 389,
+        'ldapBase' => 'dc=company,dc=local',
+        'ldapBaseUsers' => 'ou=Users,dc=company,dc=local',
+        'ldapBaseGroups' => 'ou=Groups,dc=company,dc=local',
+        'ldapAgentName' => 'cn=admin,dc=company,dc=local',
+        'ldapAgentPassword' => 'пароль_администратора_ldap',
+        'ldapUserFilter' => '(&(objectclass=mailUser)(accountStatus=active))',
+        'ldapLoginFilter' => '(&(objectclass=mailUser)(uid=%uid))',
+        'ldapUserDisplayName' => 'displayName',
+        'ldapEmailAttribute' => 'mail',
+    ],
+],
