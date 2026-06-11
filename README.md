@@ -7,6 +7,69 @@ piwukrivo is a d3m0d3m0d3m0 for s4s4s4
 
 
 
+root@mail:~# swaks --to petrova@company.local --from ivanov@company.local \
+> --server 127.0.0.1 --port 587 --tls \
+> --auth LOGIN \
+> --auth-user ivanov@company.local --auth-password "Zxc322&&" \
+> --header "Subject: Test message from console" \
+> --body "Work or not"
+=== Trying 127.0.0.1:587...
+=== Connected to 127.0.0.1.
+< 220 mail.company.local ESMTP Postfix
+> EHLO mail.company.local
+< 250-mail.company.local
+< 250-PIPELINING
+< 250-SIZE 15728640
+< 250-ETRN
+< 250-STARTTLS
+< 250-AUTH PLAIN LOGIN
+< 250-ENHANCEDSTATUSCODES
+< 250-8BITMIME
+< 250 DSN
+> STARTTLS
+< 220 2.0.0 Ready to start TLS
+=== TLS started with cipher TLSv1.3: TLS_AES_256_GCM_SHA384
+> EHLO mail.company.local
+< 250-mail.company.local
+< 250-PIPELINING
+< 250-SIZE 15728640
+< 250-ETRN
+< 250-AUTH PLAIN LOGIN
+< 250-ENHANCEDSTATUSCODES
+< 250-8BITMIME
+< 250 DSN
+> AUTH LOGIN
+< 334 VXNlcm5hbWU6
+> aXZhbm92QGNvbXBhbnkubG9jYWw=
+< 334 UGFzc3dvcmQ6
+> WnpjMzIyJiY=
+< 235 2.7.0 Authentication successful
+> MAIL FROM:<ivanov@company.local>
+< 250 2.1.0 Ok
+> RCPT TO:<petrova@company.local>
+< 250 2.1.5 Ok
+> DATA
+< 354 End data with <CR><LF>.<CR><LF>
+> Date: Thu, 11 Jun 2026 22:15:30 +0000
+> To: petrova@company.local
+> From: ivanov@company.local
+> Subject: Test message from console
+> X-Mailer: swaks v20201014.0
+> 
+> Work or not
+> 
+> .
+< 250 2.0.0 Ok: queued as 8F2C1123456
+> QUIT
+< 221 2.0.0 Bye
+=== Connection closed with remote host.
+
+
+
+
+
+
+
 
 +-----------------+-----------------+-----------------------+
 | UID             | Name            | Email                 |
