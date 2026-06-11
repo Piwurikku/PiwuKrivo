@@ -2,7 +2,21 @@
 piwukrivo is a d3m0d3m0d3m0 for s4s4s4
 
 
-
+root@mail:~# ldapsearch -x -H ldap://127.0.0.1 -b dc=company,dc=local -D cn=admin,dc=company,dc=local -W | grep -E "^(dn: |uid: |mail: )"
+Enter LDAP Password: 
+dn: dc=company,dc=local
+dn: cn=admin,dc=company,dc=local
+dn: ou=Users,dc=company,dc=local
+dn: ou=Groups,dc=company,dc=local
+dn: mail=ivanov@company.local,ou=Users,dc=company,dc=local
+uid: ivanov
+mail: ivanov@company.local
+dn: mail=petrova@company.local,ou=Users,dc=company,dc=local
+uid: petrova
+mail: petrova@company.local
+dn: mail=sidorov@company.local,ou=Users,dc=company,dc=local
+uid: sidorov
+mail: sidorov@company.local
 
 
 
