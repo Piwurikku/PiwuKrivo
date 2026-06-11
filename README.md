@@ -1328,3 +1328,11 @@ server {
         add_header Cache-Control "public, immutable";
     }
 }
+
+'memcache.local' => '\OC\Memcache\APCu',
+'memcache.distributed' => '\OC\Memcache\Redis',
+'memcache.locking' => '\OC\Memcache\Redis',
+'redis' => [
+    'host' => 'localhost',
+    'port' => 6379,
+],
