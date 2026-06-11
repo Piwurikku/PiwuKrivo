@@ -1271,3 +1271,60 @@ logger -p user.warning "TEST PIA"
 cat /opt/
 
 Должен быть виден лог с TEST PIA.
+
+
+
+
+КОД ДЛЯ ВИРТУАЛКИ СЕБЕ
+
+server {
+    listen 80;
+    server_name 172.16.1.20;
+    return 301 https://$server_name$request_uri;
+}
+
+server {
+    listen 443 ssl;
+    server_name 172.16.1.20;
+
+    ssl_certificate /etc/nginx/ssl/nginx-selfsigned.crt;
+    ssl_certificate_key /etc/nginx/ssl/nginx-selfsigned.key;
+
+    root /var/www/nextcloud;
+
+    index index.php index.html index.htm;
+
+    client_max_body_size 2G;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+
+    location ~ ^/nextcloud/(?:build|tests|config|lib|3rdparty|templates|data)/ {
+        deny all;
+    }
+
+    location ~ ^/nextcloud/(?:\.|autotest|occ|issue|indie|db_|console) {
+        deny all;
+    }
+
+    location ~ \.php(?:$|/) {
+        fastcgi_split_path_info ^(.+\.php)(/.*)$;
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_param PATH_INFO $fastcgi_path_info;
+        fastcgi_pass unix:/run/php/php8.2-fpm.sock;
+        fastcgi_index index.php;
+    }
+
+    location ~* \.(?:jpg|jpeg|gif|bmp|ico|png|css|js|swf)$ {
+        expires max;
+        add_header Cache-Control "public, immutable";
+    }
+
+    location ~* \.(?:svg|woff|woff2|ttf|eot)$ {
+        add_header Access-Control-Allow-Origin "*";
+        expires max;
+        add_header Cache-Control "public, immutable";
+    }
+}
