@@ -1,6 +1,25 @@
 # PiwuKrivo
 piwukrivo is a d3m0d3m0d3m0 for s4s4s4
 
+
+
+
+
+
+
+
++-----------------+-----------------+-----------------------+
+| UID             | Name            | Email                 |
++-----------------+-----------------+-----------------------+
+| ivanov          | Ivan Ivanov     | ivanov@company.local  |
+| petrova         | Olga Petrova    | petrova@company.local |
+| sidorov         | Petr Sidorov    | sidorov@company.local |
++-----------------+-----------------+-----------------------+
+
+
+
+
+
 #РЕШЕБНИК:
 1 модуль:
 ISP (Astra Linux):
